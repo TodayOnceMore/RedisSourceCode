@@ -104,7 +104,7 @@ typedef struct dict {
     void *privdata;
     dictht ht[2];
     long rehashidx; /* rehashing not in progress if rehashidx == -1 */
-    unsigned long iterators; /* number of iterators currently running */
+    unsigned long iterators; /* number of iterators currently running */  //当前该字典迭代器个数  
 } dict;
 
 /* If safe is set to 1 this is a safe iterator, that means, you can call
