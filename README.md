@@ -1,2 +1,2 @@
 # RedisSourceCode
-Redis3.0.2源码注解
+Redis3。2.6源码注解
