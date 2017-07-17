@@ -28,6 +28,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+// 使用Free BSD中的Kqueue， 和linux无关， 类似于linux的epoll
 
 #include <sys/types.h>
 #include <sys/event.h>

@@ -292,6 +292,10 @@ sds sdsRemoveFreeSpace(sds s) {
 
     // 进行内存重分配，让 buf 的长度仅仅足够保存字符串内容
     // T = O(N)
+    // realloc是从堆上分配内存的，当扩大一块内存空间时， realloc()试图直接从堆上现存的数据后面的那些字节中获得附加的字节，
+    // 如果原先的内存大小后面还有足够的空闲空间用来分配，加上原来的空间大小＝ newsize。那么就ok。得到的是一块连续的内存。
+    // 如果原先的内存大小后面没有足够的空闲空间用来分配，那么从堆中另外找一块newsize大小的内存。
+    // 并把原来大小内存空间中的内容复制到newsize中。返回新的mem_address指针。（数据被移动了）。 
     sh = zrealloc(sh, sizeof(struct sdshdr)+sh->len+1);
 
     // 空余空间为 0

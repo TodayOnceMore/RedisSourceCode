@@ -60,7 +60,8 @@ static int aeApiCreate(aeEventLoop *eventLoop) {
         return -1;
     }
 
-    // 创建 epoll 实例
+    // 创建 epoll 实例  size1024用来告诉内核这个监听的数目一共有多大
+    // 注意在linux 2.6.8之后，size参数是被忽略的
     state->epfd = epoll_create(1024); /* 1024 is just a hint for the kernel */
     if (state->epfd == -1) {
         zfree(state->events);
@@ -114,6 +115,10 @@ static int aeApiAddEvent(aeEventLoop *eventLoop, int fd, int mask) {
     // 注册事件到 epoll
     ee.events = 0;
     mask |= eventLoop->events[fd].mask; /* Merge old events */
+    
+    // EPOLLIN ：表示对应的文件描述符可以读（包括对端SOCKET正常关闭）；
+    // EPOLLOUT：表示对应的文件描述符可以写；
+
     if (mask & AE_READABLE) ee.events |= EPOLLIN;
     if (mask & AE_WRITABLE) ee.events |= EPOLLOUT;
     ee.data.u64 = 0; /* avoid valgrind warning */

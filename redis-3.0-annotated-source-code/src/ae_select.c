@@ -28,13 +28,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+// 使用select作为IO多路复用
 
 #include <string.h>
 
 typedef struct aeApiState {
+    // 读写套节字集合
     fd_set rfds, wfds;
     /* We need to have a copy of the fd sets as it's not safe to reuse
      * FD sets after select(). */
+
+     // 需要复制一份文件描述符， 在调用select后重用同一个描述符不安全
     fd_set _rfds, _wfds;
 } aeApiState;
 
@@ -42,22 +46,33 @@ static int aeApiCreate(aeEventLoop *eventLoop) {
     aeApiState *state = zmalloc(sizeof(aeApiState));
 
     if (!state) return -1;
+    // 读写套节字集合清空
     FD_ZERO(&state->rfds);
     FD_ZERO(&state->wfds);
     eventLoop->apidata = state;
     return 0;
 }
 
+/*
+ * 调整事件槽大小
+ */
 static int aeApiResize(aeEventLoop *eventLoop, int setsize) {
     /* Just ensure we have enough room in the fd_set type. */
     if (setsize >= FD_SETSIZE) return -1;
     return 0;
 }
 
+/*
+ * 释放select实例和事件槽
+ */
 static void aeApiFree(aeEventLoop *eventLoop) {
     zfree(eventLoop->apidata);
 }
 
+
+/*
+ * 关联给定事件到 fd
+ */
 static int aeApiAddEvent(aeEventLoop *eventLoop, int fd, int mask) {
     aeApiState *state = eventLoop->apidata;
 
@@ -66,6 +81,9 @@ static int aeApiAddEvent(aeEventLoop *eventLoop, int fd, int mask) {
     return 0;
 }
 
+/*
+ * 将给定的事件从fd中删除
+ */
 static void aeApiDelEvent(aeEventLoop *eventLoop, int fd, int mask) {
     aeApiState *state = eventLoop->apidata;
 
@@ -73,6 +91,10 @@ static void aeApiDelEvent(aeEventLoop *eventLoop, int fd, int mask) {
     if (mask & AE_WRITABLE) FD_CLR(fd,&state->wfds);
 }
 
+/*
+ * 获取可执行事件
+ * 返回可执行事件的数量
+ */
 static int aeApiPoll(aeEventLoop *eventLoop, struct timeval *tvp) {
     aeApiState *state = eventLoop->apidata;
     int retval, j, numevents = 0;

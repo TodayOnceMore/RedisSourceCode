@@ -28,6 +28,7 @@
  */
 
 
+//  使用在Solaris系统中， 和linux无关 
 #include <assert.h>
 #include <errno.h>
 #include <port.h>
