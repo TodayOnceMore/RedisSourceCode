@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "redis.h": "c",
-        "lobject.h": "c",
-        "lzio.h": "c",
-        "zmalloc.h": "c",
-        "sds.h": "c"
-    }
-}
