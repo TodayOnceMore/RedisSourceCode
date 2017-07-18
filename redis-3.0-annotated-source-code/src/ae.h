@@ -79,21 +79,25 @@ struct aeEventLoop;
 /* Types and data structures 
  *
  * 事件接口
+//  就是将函数作为类型来定义，然后在结构体当中使用
+//  如此定义主要是避免对同一原型函数的重复定义，
+//  这样就没必要在需要调用void aeFileProc(struct aeEventLoop *eventLoop, int fd, void *clientData, int mask);
+//  此类原型的函数时多次定义，简化了代码，也实现的函数原型的复用
  */
 typedef void aeFileProc(struct aeEventLoop *eventLoop, int fd, void *clientData, int mask);
 typedef int aeTimeProc(struct aeEventLoop *eventLoop, long long id, void *clientData);
 typedef void aeEventFinalizerProc(struct aeEventLoop *eventLoop, void *clientData);
 typedef void aeBeforeSleepProc(struct aeEventLoop *eventLoop);
-
+  
 /* File event structure
  *
  * 文件事件结构
- */
+*/
 typedef struct aeFileEvent {
 
     // 监听事件类型掩码，
     // 值可以是 AE_READABLE 或 AE_WRITABLE ，
-    // 或者 AE_READABLE | AE_WRITABLE
+    // 或者 AE_READABLE | AE_WRITABLE (相或)
     int mask; /* one of AE_(READABLE|WRITABLE) */
 
     // 读事件处理器
@@ -159,7 +163,7 @@ typedef struct aeEventLoop {
     // 目前已注册的最大描述符
     int maxfd;   /* highest file descriptor currently registered */
 
-    // 目前已追踪的最大描述符
+    // 目前已追踪的最大描述符数量
     int setsize; /* max number of file descriptors tracked */
 
     // 用于生成时间事件 id

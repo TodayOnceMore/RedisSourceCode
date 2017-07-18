@@ -30,6 +30,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+ /*
+ *　1. Reactor模式，串行处理事件
+ *　2. 具有定时事件功能（但是不能过多，因为是使用链表实现的）
+ *  3. 优先处理读事件
+ */
+
 #include <stdio.h>
 #include <sys/time.h>
 #include <sys/types.h>
@@ -92,7 +98,7 @@ aeEventLoop *aeCreateEventLoop(int setsize) {
      * vector with it. */
     // 初始化监听事件
     for (i = 0; i < setsize; i++)
-        eventLoop->events[i].mask = AE_NONE;
+        eventLoop->events[i].mask = AE_NONE;  // AE_NONE == 0
 
     // 返回事件循环
     return eventLoop;
@@ -141,6 +147,7 @@ int aeResizeSetSize(aeEventLoop *eventLoop, int setsize) {
 
     /* Make sure that if we created new slots, they are initialized with
      * an AE_NONE mask. */
+     // 初始化后面添加的事件槽
     for (i = eventLoop->maxfd+1; i < setsize; i++)
         eventLoop->events[i].mask = AE_NONE;
     return AE_OK;
