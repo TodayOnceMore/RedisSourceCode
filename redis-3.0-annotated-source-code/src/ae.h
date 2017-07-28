@@ -38,7 +38,7 @@
  */
 // 成功
 #define AE_OK 0
-// 出错
+// 错误
 #define AE_ERR -1
 
 /*
