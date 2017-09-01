@@ -1,9 +1,0 @@
-批量上传音频
-----------
-./batch_upload_voice -mongodbaddr={mongodb的地址} -log={存放日志的目录，预先要存在} -filedir={存放音频的目录}
-执行成功之后会在log目录下生成.log日志，　如果有错误会生成.error日志，　并记录错误信息
-
-批量上传录音者
------------
-./batch_upload_recorder -mongodbaddr={mongodb的地址} -log={存放日志的目录，预先要存在} -file={绝对地址的录音文件名，按行读取，每行的形式为{录音者编号,性别,年龄,籍贯}}
-执行成功之后会在log目录下生成.log日志，　如果有错误会生成.error日志，　并记录错误信息

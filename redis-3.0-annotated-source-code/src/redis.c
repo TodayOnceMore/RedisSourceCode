@@ -369,7 +369,7 @@ void redisLogRaw(int level, const char *msg) {
         gettimeofday(&tv,NULL);
         off = strftime(buf,sizeof(buf),"%d %b %H:%M:%S.",localtime(&tv.tv_sec));
         snprintf(buf+off,sizeof(buf)-off,"%03d",(int)tv.tv_usec/1000);
-        fprintf(fp,"[%d] %s %c %s\n",(int)getpid(),buf,c[level],msg);
+        fprintf(fp,"[%d] %s %c %s\n",(int)getpid(),buf,c[level],msg);  
     }
     fflush(fp);
 
@@ -3938,6 +3938,8 @@ int main(int argc, char **argv) {
 #ifdef INIT_SETPROCTITLE_REPLACEMENT
     spt_init(argc, argv);
 #endif
+
+    // setlocale是一个计算机函数，功能是用来配置地域的信息，设置当前程序使用的本地化信息
     setlocale(LC_COLLATE,"");
     zmalloc_enable_thread_safeness();
     zmalloc_set_oom_handler(redisOutOfMemoryHandler);
@@ -4042,7 +4044,7 @@ int main(int argc, char **argv) {
     if (!server.sentinel_mode) {
         /* Things not needed when running in Sentinel mode. */
         // 打印问候语
-        redisLog(REDIS_WARNING,"Server started, Redis version " REDIS_VERSION);
+        redisLog(REDIS_WARNING, "%s:%d Server started, Redis version %s", __FILE__, __LINE__, REDIS_VERSION);
     #ifdef __linux__
         // 打印内存警告
         linuxOvercommitMemoryWarning();
