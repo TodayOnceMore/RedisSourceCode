@@ -58,7 +58,7 @@
 #define AE_FILE_EVENTS 1
 // 时间事件
 #define AE_TIME_EVENTS 2
-// 所有事件
+// 所有事件 3
 #define AE_ALL_EVENTS (AE_FILE_EVENTS|AE_TIME_EVENTS)
 // 不阻塞，也不进行等待
 #define AE_DONT_WAIT 4
@@ -72,7 +72,7 @@
 #define AE_NOTUSED(V) ((void) V)
 
 /*
- * 事件处理器状态
+ * 事件处理器状态　变量申明
  */
 struct aeEventLoop;
 

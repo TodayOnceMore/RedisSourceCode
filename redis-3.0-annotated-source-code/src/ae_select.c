@@ -55,6 +55,7 @@ static int aeApiCreate(aeEventLoop *eventLoop) {
 
 /*
  * 调整事件槽大小
+ * 只是确保有足够的文件描述符空间
  */
 static int aeApiResize(aeEventLoop *eventLoop, int setsize) {
     /* Just ensure we have enough room in the fd_set type. */
