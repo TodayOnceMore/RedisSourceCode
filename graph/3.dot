@@ -1,29 +1,3 @@
-# RedisSourceCode
-Redis3.0源码注解
-
----
-```graphviz
-digraph st2{
-  fontname = "Verdana";
-  fontsize = 10;
-  rankdir=TB;
-  
-  node [fontname = "Verdana", fontsize = 10, color="skyblue", shape="record"];
-  
-  edge [fontname = "Verdana", fontsize = 10, color="crimson", style="solid"];
-  
-  st_hash_type [label="{<head>st_hash_type|(*compare)|(*hash)}"];
-  st_table_entry [label="{<head>st_table_entry|hash|key|record|<next>next}"];
-  st_table [label="{st_table|<type>type|num_bins|num_entries|<bins>bins}"];
-  
-  st_table:bins -> st_table_entry:head;
-  st_table:type -> st_hash_type:head;
-  st_table_entry:next -> st_table_entry:head [style="dashed", color="forestgreen"];
-}
-```
-
----
-```graphviz
 digraph st{
   fontname = "Verdana";
   fontsize = 10;
@@ -66,4 +40,3 @@ digraph st{
   entry_1:next -> entry_2:e;
   num_bins:b3 -> entry_3:e;
 }
-```
