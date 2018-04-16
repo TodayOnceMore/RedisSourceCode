@@ -20,4 +20,4 @@ func moveZeroes(nums []int)  {
 	fmt.Println(nums)
 }
 ```
-![png](graph.png)
+![png](graph/1.png)
